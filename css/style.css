@@ -6,6 +6,60 @@
     box-sizing: border-box;
 }
 
+#toastContainer {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.toast {
+    padding: 15px 20px;
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: translateX(50px);
+    animation: toastIn .4s forwards, toastOut .4s forwards 3s;
+}
+
+.toast.success {
+    background: #4CAF50;
+}
+
+.toast.error {
+    background: #d9534f;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+
+
 :root {
     --bg-primary: #0d1117;
     --bg-secondary: #161b22;
@@ -38,6 +92,7 @@
     --radius-xl: 24px;
     --radius-full: 9999px;
     --botao-tema: #e1dcdc;
+    --dropdown: #8b949ea1;
 }
 
 [data-theme="light"]{
@@ -53,6 +108,7 @@
     --border-color: #d1d5db00;
     --shadow-glow: rgba(124, 58, 237, 0.25);
     --botao-tema:#11182791;
+    --dropdown: #8b949e;
 
     .containerMenu {
         background: transparent;
@@ -113,10 +169,10 @@ button {
 }
 
 @keyframes spin {
-    0% {
-        transform: translateY(0);
+    from {
+        transform: translateX(0);
     }
-    100% {
+    to {
         transform: translateX(-100%);
     }
 }
@@ -240,9 +296,37 @@ button {
     transition: background 1s ease-in-out;
 }
 
-.idiomas{
+.dropDownButton{
+    border-radius: 25px;
     padding: 10px;
+    font-size: 1.1rem;
+    transition: background 1s ease-in-out;
     background: transparent;
+}
+
+.mudarIdioma{
+    padding: var(--radius-md);
+    background: var(--dropdown);
+}
+
+.dropDown{
+    position: relative;
+    display: inline-block;
+}
+
+.dropDownConteudo{
+    display: none;
+    position: absolute;
+}
+
+.dropDownConteudo a{
+    text-decoration: none;
+    display: block;
+    color: var(--text-primary);
+}
+
+.show{
+    display: grid;
 }
 
 #sobre-section {
@@ -377,24 +461,23 @@ button {
     background-clip: text;
 }
 
-.habilidadesGrid::-webkit-scrollbar {
-    display: none;
-}
-
 .habilidadesGrid {
     display: flex;
-    gap: var(--space-12);
+    gap: 40px;
+    overflow: hidden;
+    /*gap: var(--space-12);
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: hidden;*/
     padding: var(--space-2) 0;
+    overflow: hidden;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-purple) var(--bg-secondary);
-    justify-content: center;
     will-change: transform;
-    animation: spin 10s infinite linear;
-    transition: background 1s ease-in-out;
+    /*animation: spin 18s linear infinite;
+    transition: background 1s ease-in-out;*/
+    white-space: nowrap;
 }
 
 .habilidadesGrid::-webkit-scrollbar {
@@ -425,11 +508,12 @@ button {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     position: relative;
-    overflow: hidden;
     min-width: 150px;
     flex-shrink: 0;
     justify-content: center;
     transition: background 1s ease-in-out;
+    flex: 0 0 auto;
+    text-align: center;
 }
 
 .habilidadeItem::before {
@@ -851,6 +935,27 @@ button {
 
 .formContato button:active {
     transform: translateY(-1px);
+}
+
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo.erro input,
+.campo.erro textarea {
+    border: 2px solid red;
+}
+
+.campo.sucesso input,
+.campo.sucesso textarea {
+    border: 2px solid green;
+}
+
+.mensagemErro {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    height: 14px;
 }
 
 .containerRodape {
